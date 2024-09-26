@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
         }
       ],
       colors: [colorObj],
-      type: 'line'
+      type: 'bar'
     }
   }
 
