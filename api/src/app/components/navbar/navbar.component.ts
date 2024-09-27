@@ -161,38 +161,30 @@ export class NavbarComponent implements OnInit {
     triggerFileInput() {
       this.fileInput.nativeElement.click();
     }
-    
+  
     importDadosProvisionados(event: any) {
       const file: File = event.target.files[0];
-    
+  
       if (file) {
-        const reader: FileReader = new FileReader();
-        reader.onload = (e: any) => {
-          // Ler o arquivo como ArrayBuffer
-          const byteArray: Uint8Array = new Uint8Array(e.target.result);
-          
-          console.log("Type of file: ",typeof byteArray)
-          console.log(byteArray)
-
-          this.httpService.post("http://localhost:8080/importacao", byteArray, {
-            headers: { 'Content-Type': 'application/octet-stream' },
-            responseType: 'arraybuffer' 
-          }).subscribe(
-            response => {
-              console.log('Dados enviados com sucesso', response);
-            },
-            error => {
-              console.error('Erro ao enviar dados', error);
-            }
-          );
-        };
-    
-        reader.readAsArrayBuffer(file); // Ler o arquivo como array buffer
+        // Criar um objeto FormData
+        const formData: FormData = new FormData();
+        formData.append('file', file, file.name); 
+  
+        this.httpService.post("http://localhost:8080/importacao", formData, {
+          headers: { 'enctype': 'multipart/form-data' }
+        }).subscribe(
+          response => {
+            console.log('Arquivo enviado com sucesso', response);
+            console.log("Type do arquivo: ",typeof formData);
+          },
+          error => {
+            console.error('Erro ao enviar arquivo', error);
+          }
+        );
       } else {
         console.log("Nenhum arquivo selecionado.");
       }
     }
+  }
+     
     
-    
-    
-}
