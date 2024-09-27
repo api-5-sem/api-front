@@ -1,8 +1,9 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router } from '@angular/router';
 import Chart from 'chart.js';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,10 @@ import Chart from 'chart.js';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-    private listTitles: any[];
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
+  
+  private listTitles: any[];
     location: Location;
       mobile_menu_visible: any = 0;
     private toggleButton: any;
@@ -18,8 +22,9 @@ export class NavbarComponent implements OnInit {
 
     public isCollapsed = true;
 
-    constructor(location: Location,  private element: ElementRef, private router: Router) {
+    constructor(location: Location,  private element: ElementRef, private router: Router,private httpService: HttpClient) {
       this.location = location;
+      this.httpService = httpService;
           this.sidebarVisible = false;
     }
 
@@ -152,4 +157,42 @@ export class NavbarComponent implements OnInit {
       }
       return 'Dashboard';
     }
+
+    triggerFileInput() {
+      this.fileInput.nativeElement.click();
+    }
+    
+    importDadosProvisionados(event: any) {
+      const file: File = event.target.files[0];
+    
+      if (file) {
+        const reader: FileReader = new FileReader();
+        reader.onload = (e: any) => {
+          // Ler o arquivo como ArrayBuffer
+          const byteArray: Uint8Array = new Uint8Array(e.target.result);
+          
+          console.log("Type of file: ",typeof byteArray)
+          console.log(byteArray)
+
+          this.httpService.post("http://localhost:8080/importacao", byteArray, {
+            headers: { 'Content-Type': 'application/octet-stream' },
+            responseType: 'arraybuffer' 
+          }).subscribe(
+            response => {
+              console.log('Dados enviados com sucesso', response);
+            },
+            error => {
+              console.error('Erro ao enviar dados', error);
+            }
+          );
+        };
+    
+        reader.readAsArrayBuffer(file); // Ler o arquivo como array buffer
+      } else {
+        console.log("Nenhum arquivo selecionado.");
+      }
+    }
+    
+    
+    
 }

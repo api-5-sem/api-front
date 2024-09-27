@@ -16,7 +16,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     BrowserAnimationsModule,
     FormsModule,
     ComponentsModule,
-    RouterModule,
+    RouterModule,HttpClientModule,
     AppRoutingModule,
   ],
   declarations: [

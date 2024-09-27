@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  jenkins:
+    build: .
+    container_name: jenkins-custom
+    ports:
+      - "8081:8080"  # Mapear porta externa 8081 para interna 8080
+      - "50001:50000"  # Mapear a porta de agente Jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+volumes:
+  jenkins_home:
