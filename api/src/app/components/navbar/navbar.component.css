@@ -1,14 +1,16 @@
 .loading {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ocupa toda a largura da viewport */
+    height: 100vh; /* Ocupa toda a altura da viewport */
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente para sobrepor a página */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: red;
-    z-index: 1000; /* Certifique-se de que o z-index é alto para sobrepor */
+    z-index: 9999; /* Valor de z-index alto para sobrepor todos os elementos */
   }
   
   .spinner {

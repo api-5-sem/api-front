@@ -1,7 +1,10 @@
+<!-- Spinner que será exibido somente quando `isLoading` for verdadeiro -->
 <div class="loading" *ngIf="isLoading">
   <div class="spinner"></div>
   <p>Carregando...</p>
 </div>
+
+<!-- Navbar com botão de importação -->
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute bg-primary fixed-top">
   <div class="container-fluid">
     <div class="navbar-wrapper">
@@ -12,19 +15,18 @@
           <span class="navbar-toggler-bar bar3"></span>
         </button>
       </div>
-      <a class="navbar-brand" href="#pablo">{{ getTitle() }}</a>
+      <a class="navbar-brand" href="#">{{ getTitle() }}</a>
     </div>
 
     <div class="d-flex ms-auto align-items-center">
-      <!-- Botão estilizado -->
-      <button class="btn btn-light loading" style="border-radius: 5%;" (click)="triggerFileInput()" aria-label="Importar dados">
+      <!-- Botão estilizado para importar dados, no topo -->
+      <button class="btn btn-light" style="border-radius: 5%;" (click)="triggerFileInput()" aria-label="Importar dados">
         <i class="now-ui-icons files_single-copy-04"></i> Importar
       </button>
       
       <!-- Input de arquivo oculto -->
       <input type="file" #fileInput style="display: none;" (change)="importDadosProvisionados($event)" accept=".xlsx, .xls" />
     </div>
-    
 
     <button class="navbar-toggler" type="button" (click)="collapse()"
       [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
