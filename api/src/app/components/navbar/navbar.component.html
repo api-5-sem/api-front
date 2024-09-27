@@ -1,3 +1,7 @@
+<div class="loading" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Carregando...</p>
+</div>
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute bg-primary fixed-top">
   <div class="container-fluid">
     <div class="navbar-wrapper">
@@ -13,7 +17,7 @@
 
     <div class="d-flex ms-auto align-items-center">
       <!-- Botão estilizado -->
-      <button class="btn btn-light" style="border-radius: 5%;" (click)="triggerFileInput()" aria-label="Importar dados">
+      <button class="btn btn-light loading" style="border-radius: 5%;" (click)="triggerFileInput()" aria-label="Importar dados">
         <i class="now-ui-icons files_single-copy-04"></i> Importar
       </button>
       

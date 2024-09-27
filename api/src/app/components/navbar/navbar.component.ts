@@ -16,7 +16,8 @@ export class NavbarComponent implements OnInit {
   
   private listTitles: any[];
     location: Location;
-      mobile_menu_visible: any = 0;
+    isLoading:boolean = false;  
+    mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
 
@@ -158,33 +159,39 @@ export class NavbarComponent implements OnInit {
       return 'Dashboard';
     }
 
-    triggerFileInput() {
-      this.fileInput.nativeElement.click();
-    }
-  
-    importDadosProvisionados(event: any) {
-      const file: File = event.target.files[0];
-  
-      if (file) {
-        // Criar um objeto FormData
-        const formData: FormData = new FormData();
-        formData.append('file', file, file.name); 
-  
-        this.httpService.post("http://localhost:8080/importacao", formData, {
-          headers: { 'enctype': 'multipart/form-data' }
-        }).subscribe(
-          response => {
-            console.log('Arquivo enviado com sucesso', response);
-            console.log("Type do arquivo: ",typeof formData);
-          },
-          error => {
-            console.error('Erro ao enviar arquivo', error);
-          }
-        );
-      } else {
-        console.log("Nenhum arquivo selecionado.");
-      }
+    
+  triggerFileInput() {
+    this.fileInput.nativeElement.click();
+  }
+
+  importDadosProvisionados(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      // Mostrar o spinner enquanto o upload está em progresso
+      this.isLoading = true;
+
+      // Criar um objeto FormData
+      const formData: FormData = new FormData();
+      formData.append('file', file, file.name); 
+
+      this.httpService.post("http://localhost:8080/importacao", formData, {
+        headers: { 'enctype': 'multipart/form-data' }
+      }).subscribe(
+        response => {
+          console.log('Arquivo enviado com sucesso', response);
+          this.isLoading = false; 
+        },
+        error => {
+          console.error('Erro ao enviar arquivo', error);
+          this.isLoading = false; 
+        }
+      );
+    } else {
+      console.log("Nenhum arquivo selecionado.");
     }
   }
+}
+
      
     
