@@ -1,11 +1,9 @@
 {
-  "name": "now-ui-dashboard-angular",
+  "name": "api",
   "version": "1.4.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "sonar": "sonar-scanner",
-
     "start": "ng serve",
     "build": "cross-env CI=false ng build",
     "test": "ng test",
