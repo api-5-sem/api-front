@@ -18,80 +18,73 @@ describe('NavbarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
-    httpMock = TestBed.inject(HttpTestingController); // Injeta o HttpTestingController
+    httpMock = TestBed.inject(HttpTestingController); 
     fixture.detectChanges();
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verifica que não há requisições pendentes após cada teste
+    httpMock.verify(); 
   });
 
-  it('should create', () => {
+  it('Devera ser criado', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the loading spinner when isLoading is true', () => {
-    // Definindo isLoading como true para exibir o spinner
+  it('Devera  aparecer o spinner quando isLoading is true', () => {
     component.isLoading = true;
     fixture.detectChanges();
-
-    // Procurar pelo elemento com a classe 'loading'
     const loadingElement = fixture.debugElement.query(By.css('.loading'));
-    expect(loadingElement).toBeTruthy(); // Verificar se o elemento existe
+    expect(loadingElement).toBeTruthy(); 
   });
 
-  it('should hide the loading spinner when isLoading is false', () => {
-    // Definindo isLoading como false para ocultar o spinner
+  it('Devera  esconder o spinner quando isLoading is false', () => {
     component.isLoading = false;
     fixture.detectChanges();
 
-    // Procurar pelo elemento com a classe 'loading'
     const loadingElement = fixture.debugElement.query(By.css('.loading'));
-    expect(loadingElement).toBeFalsy(); // Verificar se o elemento não existe
+    expect(loadingElement).toBeFalsy(); 
   });
 
-  it('should trigger file input and set isLoading to true when the import button is clicked', fakeAsync(() => {
-    spyOn(component, 'triggerFileInput'); // Espia o método triggerFileInput
+  it('Devera trigger file input e setar isLoading quando true e quando o import button é clicado', fakeAsync(() => {
+    spyOn(component, 'triggerFileInput'); 
 
-    // Procurar pelo botão de importação e simular um clique
+
     const importButton = fixture.debugElement.query(By.css('button[aria-label="Importar dados"]'));
     importButton.nativeElement.click();
 
     fixture.detectChanges();
 
-    expect(component.triggerFileInput).toHaveBeenCalled(); // Verifica se o método foi chamado
-    expect(component.isLoading).toBeTrue(); // isLoading deve ser true após o clique
+    expect(component.triggerFileInput).toHaveBeenCalled(); 
+    expect(component.isLoading).toBeTrue(); 
 
-    // Simular a seleção de arquivo e disparar o evento change
+    
     const mockFile = new File([''], 'test.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const event = { target: { files: [mockFile] } } as unknown as Event;
     component.importDadosProvisionados(event);
     
-    // Simula a requisição e resposta HTTP
+    
     const req = httpMock.expectOne('http://localhost:8080/importacao');
     expect(req.request.method).toBe('POST');
 
-    req.flush({ message: 'Arquivo enviado com sucesso' }); // Simula uma resposta bem-sucedida do servidor
-    tick(); // Avança no tempo para que o Observable finalize
+    req.flush({ message: 'Arquivo enviado com sucesso' }); 
+    tick(); 
     fixture.detectChanges();
 
-    expect(component.isLoading).toBeFalse(); // O estado isLoading deve ser false após a resposta
+    expect(component.isLoading).toBeFalse(); 
   }));
 
   it('should hide the spinner if the file upload fails', fakeAsync(() => {
-    // Simular a seleção de arquivo
     const mockFile = new File([''], 'test.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const event = { target: { files: [mockFile] } } as unknown as Event;
     component.importDadosProvisionados(event);
 
-    // Simula a requisição e resposta HTTP com falha
     const req = httpMock.expectOne('http://localhost:8080/importacao');
     expect(req.request.method).toBe('POST');
 
     req.flush('Erro ao enviar arquivo', { status: 500, statusText: 'Internal Server Error' });
-    tick(); // Avança no tempo para que o Observable finalize
+    tick(); 
     fixture.detectChanges();
 
-    expect(component.isLoading).toBeFalse(); // O estado isLoading deve ser false após a falha
+    expect(component.isLoading).toBeFalse(); 
   }));
 });
