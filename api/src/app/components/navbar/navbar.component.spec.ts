@@ -26,18 +26,18 @@ describe('NavbarComponent', () => {
     httpMock.verify(); 
   });
 
-  it('Devera ser criado', () => {
+  fit('Devera ser criado', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Devera  aparecer o spinner quando isLoading is true', () => {
+  fit('Devera  aparecer o spinner quando isLoading is true', () => {
     component.isLoading = true;
     fixture.detectChanges();
     const loadingElement = fixture.debugElement.query(By.css('.loading'));
     expect(loadingElement).toBeTruthy(); 
   });
 
-  it('Devera  esconder o spinner quando isLoading is false', () => {
+  fit('Devera  esconder o spinner quando isLoading is false', () => {
     component.isLoading = false;
     fixture.detectChanges();
 
@@ -45,7 +45,7 @@ describe('NavbarComponent', () => {
     expect(loadingElement).toBeFalsy(); 
   });
 
-  it('Devera trigger file input e setar isLoading quando true e quando o import button é clicado', fakeAsync(() => {
+  fit('Devera trigger file input e setar isLoading quando true e quando o import button é clicado', fakeAsync(() => {
     spyOn(component, 'triggerFileInput'); 
 
 
@@ -73,7 +73,7 @@ describe('NavbarComponent', () => {
     expect(component.isLoading).toBeFalse(); 
   }));
 
-  it('should hide the spinner if the file upload fails', fakeAsync(() => {
+  it('Devera esconder o spinner se o file upload falhar', fakeAsync(() => {
     const mockFile = new File([''], 'test.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const event = { target: { files: [mockFile] } } as unknown as Event;
     component.importDadosProvisionados(event);
