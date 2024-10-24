@@ -6,34 +6,16 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"> Tabela de Indicadores</h4>
+          <h4 class="card-title">Gerenciamento de Permissao</h4>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table">
-              <thead class="text-primary">
-                <th>
-                  Descritivo
-                </th>
-                <th>
-                  Tabela
-                </th>
-                <th>
-                  Indicador Chave
-                </th>
-                <th>
-                  Comparador
-                </th>
-                <th>
-                  Valor
-                </th>
-                <th>
-                  Filtro
-                </th>
-              </thead>
-              <tbody>
-                   </tbody>
-            </table>
+        <div class="card-body row">
+          <div class="col-6 form-group ">
+            <label>Usuarios</label>
+            <select class="form-control">
+            </select>
+          </div>
+          <div class="col-3" style="margin-top: 12.5px;">
+            <button class="btn btn-block btn-outline-primary" type="button">Buscar</button>
           </div>
         </div>
       </div>
@@ -41,7 +23,29 @@
   </div>
 
   <div class="row">
-    <div class="col-3">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4 mt-4" *ngFor="let t of [1,2,3,4,5]">
+              <div class="row">
+                <div class="col-1">
+                  <input type="checkbox">
+                </div>
+                <div class="col">
+                  Permissao 1
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col d-flex justify-content-end">
+      <button class="btn btn-block btn-success" type="button">Atualizar Permissoes</button>
     </div>
   </div>
 </div>
