@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from '../environments/environment';
 
 
@@ -8,12 +8,20 @@ import { environment } from '../environments/environment';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+    private notificationInterval: any;
+
     constructor(private http: HttpClient) { }
 
     ngOnInit(): void {
-        setInterval(() => {
-            //this.http.post(environment.apiUrl + 'notificacoes', { usuario: 'admin' }).subscribe()
+        this.notificationInterval = setInterval(() => {
+            this.http.post(environment.apiUrl + 'notificacoes', { usuario: 'admin' }).subscribe()
         }, 15000)
     }
+
+    ngOnDestroy(): void {
+        if (this.notificationInterval) {
+          clearInterval(this.notificationInterval);
+        }
+      }
 }
