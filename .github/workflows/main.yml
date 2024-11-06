@@ -6,11 +6,6 @@ on:
       - develop
       - main
       - qas
-  push:
-    branches:
-      - develop
-      - main
-      - qas
 
 jobs:
   build:
@@ -56,4 +51,4 @@ jobs:
           context: ./api 
           file: ./api/Dockerfile  
           push: true
-          tags: pixelapi/angular_app:latest  
+          tags: pixelapi/angular_app:latest 
