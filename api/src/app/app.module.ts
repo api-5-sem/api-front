@@ -13,6 +13,7 @@ import { ComponentsModule } from './components/components.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalConfigComponent } from './dashboard/modal-config/modal-config.component';
 import { PermissionDirective } from './permission.directive';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { PermissionDirective } from './permission.directive';
     FormsModule,
     RouterModule,
     AppRoutingModule,
+    
     ComponentsModule,
     HttpClientModule,
     ReactiveFormsModule
@@ -30,7 +32,6 @@ import { PermissionDirective } from './permission.directive';
     AdminLayoutComponent,
     ModalConfigComponent,
     PermissionDirective,
-
   ],
   providers: [],
   bootstrap: [AppComponent]
