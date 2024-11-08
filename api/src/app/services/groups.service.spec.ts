@@ -29,7 +29,7 @@ describe('GroupsService', () => {
       expect(grupos).toEqual(mockGrupos);
     });
 
-    const req = httpMock.expectOne(`${environment.apiUrl}usuarios/grupos`);
+    const req = httpMock.expectOne(`${environment.apiUrl}grupos`);
     expect(req.request.method).toBe('GET');
 
     req.flush(mockGrupos);

@@ -14,7 +14,7 @@ describe('PermissionsComponent', () => {
 
   beforeEach(() => {
     const permissionsSpy = jasmine.createSpyObj('PermissionsService', ['getAll', 'save']);
-    const groupsSpy = jasmine.createSpyObj('GroupsService', ['getAll']);
+    const groupsSpy = jasmine.createSpyObj('GroupsService', ['getAll', 'getById']);
 
     TestBed.configureTestingModule({
       declarations: [PermissionsComponent],
@@ -55,6 +55,8 @@ describe('PermissionsComponent', () => {
       grupoId: new FormControl(1),
       permissoesIds: new FormControl([])
     });
+
+    groupsServiceSpy.getById.and.returnValue(of([{ idPermissao: 1 }, { idPermissao: 2 }] ))
 
     component.search();
 

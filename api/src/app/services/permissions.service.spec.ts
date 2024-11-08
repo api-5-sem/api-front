@@ -50,7 +50,7 @@ describe('PermissionsService', () => {
       expect(response).toEqual({ success: true });
     });
 
-    const req = httpMock.expectOne(environment.apiUrl + 'permissoes');
+    const req = httpMock.expectOne(environment.apiUrl + 'permissoes/grupos');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockForm.value);
     req.flush({ success: true });
