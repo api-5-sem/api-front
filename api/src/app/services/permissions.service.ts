@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -8,14 +8,17 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class PermissionsService {
+  private tokenAuth: string | null = localStorage.getItem("authToken");
 
   constructor(private httpClient: HttpClient) { }
 
   getAll(): Observable<any>{
-    return this.httpClient.get(environment.apiUrl + 'permissoes');
+    const header = new HttpHeaders().set('Authorization', `${this.tokenAuth}`);
+    return this.httpClient.get(environment.apiUrl + 'permissoes', { headers: header });
   }
 
   save(form:FormGroup): Observable<any>{
-    return this.httpClient.post(environment.apiUrl + 'permissoes', form.value);
+    const headers = new HttpHeaders().set('Authorization', `${this.tokenAuth}`);
+    return this.httpClient.post(environment.apiUrl + 'permissoes/grupos', form.value, { headers });
   }
 }

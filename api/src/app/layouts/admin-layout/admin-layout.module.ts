@@ -14,6 +14,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { KeyIndicatorsComponent } from './key-indicators/key-indicators.component';
 import { CreateIndicatorComponent } from './key-indicators/create-indicator/create-indicator.component';
 import { PermissionsComponent } from './permissions/permissions.component';
+import { PermissionDirective } from '../../permission.directive';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { PermissionsComponent } from './permissions/permissions.component';
     GraphicComponent,
     CardDataComponent,
     CreateIndicatorComponent,
-    PermissionsComponent
+    PermissionsComponent,
+    PermissionDirective
   ],
 })
 

@@ -30,8 +30,7 @@ import { LoginComponent } from './login/login.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    ModalConfigComponent,
-    PermissionDirective,
+    ModalConfigComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

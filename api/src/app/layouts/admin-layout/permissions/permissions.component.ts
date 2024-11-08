@@ -44,11 +44,13 @@ export class PermissionsComponent implements OnInit {
     this.formPermissions = [];
     
     this.currentGroup = this.groups.filter(x => x.id == this.form.controls.grupoId.value)[0];
-    this.currentGroup.permissoes.forEach(p => {
-        this.addPermission(p.idPermissao);
-    })
-    
-    this.hasSearched = true;
+    this.groupService.getById(this.currentGroup.id)
+      .subscribe(x => {
+        x.forEach(p => {
+          this.addPermission(p.idPermissao);
+        })
+        this.hasSearched = true;
+      })
   }
 
   isChecked(id: number){
