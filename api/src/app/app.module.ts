@@ -12,9 +12,8 @@ import { ComponentsModule } from './components/components.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ModalConfigComponent } from './dashboard/modal-config/modal-config.component';
-import { PermissionDirective } from './permission.directive';
-import { LoginComponent } from './login/login.component';
-
+import { ModalExportComponent } from './dashboard/modal-export/modal-export.component';
+import { ExportTemplateComponent } from './dashboard/export-template/export-template.component';
 
 @NgModule({
   imports: [
@@ -22,15 +21,15 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     RouterModule,
     AppRoutingModule,
-    
     ComponentsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    ModalConfigComponent
+    ModalConfigComponent,
+    ModalExportComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

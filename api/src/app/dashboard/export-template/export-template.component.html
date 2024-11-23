@@ -1,0 +1,12 @@
+<div>
+  <div *ngIf="type == 'card'" #card>
+    <app-card-data [filters]="data.request.filtros" [description]="data.request.description" [value]="data.value" [idx]="4" [id]="4">
+    </app-card-data>
+  </div>
+
+  <div *ngIf="type == 'grafico'" #graphic>
+    <app-graphic [description]="''" chartId="chartFour" [lineChartType]="data.type" [lineChartData]="data.data"
+      [lineChartColors]="data.colors" [idx]="3" [lineChartLabels]="data.labels">
+    </app-graphic>
+  </div>
+</div>
