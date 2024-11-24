@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalConfigComponent } from './dashboard/modal-config/modal-config.component';
 import { ModalExportComponent } from './dashboard/modal-export/modal-export.component';
 import { ExportTemplateComponent } from './dashboard/export-template/export-template.component';
+import { PermissionDirective } from './permission.directive';
+import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 
 @NgModule({
   imports: [

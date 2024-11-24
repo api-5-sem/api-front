@@ -39,6 +39,9 @@ import { ExportTemplateComponent } from '../../dashboard/export-template/export-
     PermissionDirective,
     ExportTemplateComponent,
   ],
+  exports: [
+    PermissionDirective
+  ]
 })
 
 export class AdminLayoutModule { }

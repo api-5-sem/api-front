@@ -8,6 +8,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
+import { AdminLayoutModule } from '../layouts/admin-layout/admin-layout.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { LoginComponent } from '../login/login.component';
     RouterModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AdminLayoutModule
   ],
   declarations: [
     FooterComponent,
