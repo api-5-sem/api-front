@@ -8,9 +8,9 @@ describe('ModalExportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModalExportComponent ]
+      declarations: [ModalExportComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

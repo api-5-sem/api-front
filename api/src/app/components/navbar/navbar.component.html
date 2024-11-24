@@ -23,12 +23,14 @@
       <button class="btn btn-light" style="border-radius: 5%;" (click)="triggerFileInput()" aria-label="Importar dados">
         <i class="now-ui-icons files_single-copy-04"></i> Importar
       </button>
-      
+
       <!-- Input de arquivo oculto -->
-      <input type="file" #fileInput style="display: none;" (change)="importDadosProvisionados($event)" accept=".xlsx, .xls" />
+      <input type="file" #fileInput style="display: none;" (change)="importDadosProvisionados($event)"
+        accept=".xlsx, .xls" />
     </div>
 
-    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
