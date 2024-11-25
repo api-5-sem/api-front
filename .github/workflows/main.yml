@@ -54,7 +54,7 @@ jobs:
     needs: build
     steps:
       - name: Notify Slack - Success
-        if: success()  # Notifica apenas se o CI passar
+        if: success()  
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: api
@@ -68,7 +68,7 @@ jobs:
     needs: build
     steps:
       - name: Notify Slack - Failure
-        if: failure()  # Notifica apenas se o CI falhar
+        if: failure()  
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: api
