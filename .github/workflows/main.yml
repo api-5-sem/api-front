@@ -60,7 +60,7 @@ jobs:
           SLACK_CHANNEL: api
           SLACK_TITLE: CI Success
           SLACK_USERNAME: BotCI
-          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
           SLACK_MESSAGE: "CI buildado com sucesso!"
 
   notifySlackFailure:
