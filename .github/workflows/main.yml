@@ -48,6 +48,17 @@ jobs:
           file: ./api/Dockerfile
           push: true
           tags: pixelapi/angular_app:latest
+  notifySlack:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notification Slack
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: ci
+        SLACK_TITLE: Post Title
+        SLACK_USERNAME: BotCI
+        SLACK_WEBHOOK: https://hooks.slack.com/services/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
+        SLACK_MESSAGE: "CI finalizado com sucesso."
 
   notifyTelegramSuccess:
     runs-on: ubuntu-latest
