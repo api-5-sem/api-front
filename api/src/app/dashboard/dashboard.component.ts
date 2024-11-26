@@ -303,17 +303,17 @@ export class DashboardComponent implements OnInit {
         let data = response.graphicTwo.map(x => x[0]);
         let labels = response.graphicTwo.map(x => x[1])
         this.graphicTwoParameter = this.createGraphic(requestGraphicTwo.description, 'green', labels, data)
-        this.saveData('grafico2', this.graphicTwoParameter);
+        this.saveData('grafico1', this.graphicTwoParameter);
 
         data = response.graphicThree.map(x => x[0]);
         labels = response.graphicThree.map(x => x[1])
         this.graphicThreeParameter = this.createGraphic(requestGraphicThree.description, 'orange', labels, data)
-        this.saveData('grafico3', this.graphicThreeParameter);
+        this.saveData('grafico2', this.graphicThreeParameter);
 
         data = response.graphicOne.map(x => x[0]);
         labels = response.graphicOne.map(x => x[1])
         this.graphicOneParameter = this.createBigGraphic(requestGraphicOne.description, labels, data)
-        this.saveData('grafico1', this.graphicOneParameter);
+        this.saveData('grafico0', this.graphicOneParameter);
 
         this.isLoading = false;
       });
@@ -327,7 +327,7 @@ export class DashboardComponent implements OnInit {
 
   share() {
     let modalRef = this.modalService.open(ModalExportComponent);
-    modalRef.componentInstance.idx = 1
+    modalRef.componentInstance.idx = 0
     modalRef.componentInstance.tipo = 'grafico'
   }
 
