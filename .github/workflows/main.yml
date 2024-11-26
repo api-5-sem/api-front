@@ -58,8 +58,8 @@ jobs:
           SLACK_CHANNEL: api
           SLACK_TITLE: Post Title
           SLACK_USERNAME: BotCI
-          SLACK_WEBHOOK: https://hooks.slack.com/services/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
-          SLACK_MESSAGE: "ci buildado com sucesso"
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_MESSAGE: "CI buildado com sucesso"
 
   notifyCompletion:
     runs-on: ubuntu-latest
@@ -71,8 +71,8 @@ jobs:
           SLACK_CHANNEL: api
           SLACK_TITLE: Pipeline Completed
           SLACK_USERNAME: BotCI
-          SLACK_WEBHOOK: https://hooks.slack.com/services/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
-          SLACK_MESSAGE: "Pipeline do ci concluida com sucesso!"
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_MESSAGE: "Pipeline do CI concluída com sucesso!"
 
   notifyTelegramSuccess:
     runs-on: ubuntu-latest
@@ -89,6 +89,7 @@ jobs:
             - Event: ${{ github.event_name }}
             - Branch: ${{ github.ref_name }}
             - Status: Pipeline concluído com sucesso!
+            - Last Push: ${{ github.sha }}
 
   notifyTelegramFailure:
     runs-on: ubuntu-latest
@@ -105,3 +106,4 @@ jobs:
             - Event: ${{ github.event_name }}
             - Branch: ${{ github.ref_name }}
             - Status: Falha no pipeline. Verifique os logs para mais detalhes!
+            - Last Push: ${{ github.sha }}
