@@ -6,7 +6,7 @@ on:
       - develop
       - main
   schedule:
-    - cron: '0 18 * * *' 
+    - cron: '0 18 * * *'
 
 jobs:
   build:
@@ -48,31 +48,31 @@ jobs:
           file: ./api/Dockerfile
           push: true
           tags: pixelapi/angular_app:latest
-          
-    messageSlack:
+
+  messageSlack:
     runs-on: ubuntu-latest
     steps:
-    - name: Notification Slack
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: api
-        SLACK_TITLE: Post Title
-        SLACK_USERNAME: BotCI
-        SLACK_WEBHOOK:  https://hooks.slack.com/services/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
-        SLACK_MESSAGE: "ci buildado com sucesso"
+      - name: Notification Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: api
+          SLACK_TITLE: Post Title
+          SLACK_USERNAME: BotCI
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_MESSAGE: "ci buildado com sucesso"
 
   notifyCompletion:
     runs-on: ubuntu-latest
     needs: messageSlack
     steps:
-    - name: Notification Slack - Pipeline Completed
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: api
-        SLACK_TITLE: Pipeline Completed
-        SLACK_USERNAME: BotCI
-        SLACK_WEBHOOK: https://hooks.slack.com/services/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
-        SLACK_MESSAGE: "Pipeline do ci concluida com sucesso!"
+      - name: Notification Slack - Pipeline Completed
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: api
+          SLACK_TITLE: Pipeline Completed
+          SLACK_USERNAME: BotCI
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_MESSAGE: "Pipeline do ci concluida com sucesso!"
 
   notifyTelegramSuccess:
     runs-on: ubuntu-latest
