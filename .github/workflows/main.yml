@@ -6,7 +6,7 @@ on:
       - develop
       - main
   schedule:
-    - cron: '0 18 * * *'
+    - cron: '0 18 * * *' # Executa todos os dias às 18h
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: pixelapi
-          password: dckr_pat_141H8Srq1M-oOjg-fho4j6ezHMY
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
         if: github.ref == 'refs/heads/main'
@@ -59,7 +59,7 @@ jobs:
           SLACK_TITLE: Post Title
           SLACK_USERNAME: BotCI
           SLACK_WEBHOOK: https://hooks.slack.com/services/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
-          SLACK_MESSAGE: "ci buildado com sucesso"
+          SLACK_MESSAGE: "CI buildado com sucesso"
 
   notifyTelegramSuccess:
     runs-on: ubuntu-latest
