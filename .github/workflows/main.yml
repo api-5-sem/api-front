@@ -57,7 +57,7 @@ jobs:
         SLACK_CHANNEL: ci
         SLACK_TITLE: Post Title
         SLACK_USERNAME: BotCI
-        SLACK_WEBHOOK: https://hooks.slack.com/services/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
+        SLACK_WEBHOOK: https://hooks.slack.com/services/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
         SLACK_MESSAGE: "CI finalizado com sucesso."
 
   notifyTelegramSuccess:
