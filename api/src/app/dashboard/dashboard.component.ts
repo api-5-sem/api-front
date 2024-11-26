@@ -294,26 +294,26 @@ export class DashboardComponent implements OnInit {
     })
       .subscribe(response => {
         this.cardData.push({ value: response.cardOne.reduce((a, b) => a + b, 0), request: requestCardOne });
-        this.saveData('card1', this.cardData[0]);
+        this.saveData('card1', { data: this.cardData[0], generatedValues: response.cardOne });
         this.cardData.push({ value: response.cardTwo.reduce((a, b) => a + b, 0), request: requestCardTwo });
-        this.saveData('card2', this.cardData[1]);
+        this.saveData('card2', { data: this.cardData[1], generatedValues: response.cardTwo });
         this.cardData.push({ value: response.cardThree.reduce((a, b) => a + b, 0), request: requestCardThree });
-        this.saveData('card3', this.cardData[2]);
+        this.saveData('card3', { data: this.cardData[2], generatedValues: response.cardThree });
 
         let data = response.graphicTwo.map(x => x[0]);
         let labels = response.graphicTwo.map(x => x[1])
         this.graphicTwoParameter = this.createGraphic(requestGraphicTwo.description, 'green', labels, data)
-        this.saveData('grafico1', this.graphicTwoParameter);
+        this.saveData('grafico1', { data: this.graphicTwoParameter, generatedValues: response.graphicTwo });
 
         data = response.graphicThree.map(x => x[0]);
         labels = response.graphicThree.map(x => x[1])
         this.graphicThreeParameter = this.createGraphic(requestGraphicThree.description, 'orange', labels, data)
-        this.saveData('grafico2', this.graphicThreeParameter);
+        this.saveData('grafico2', { data: this.graphicThreeParameter, generatedValues: response.graphicThree });
 
         data = response.graphicOne.map(x => x[0]);
         labels = response.graphicOne.map(x => x[1])
         this.graphicOneParameter = this.createBigGraphic(requestGraphicOne.description, labels, data)
-        this.saveData('grafico0', this.graphicOneParameter);
+        this.saveData('grafico0', { data: this.graphicOneParameter, generatedValues: response.graphicOne });
 
         this.isLoading = false;
       });

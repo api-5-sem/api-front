@@ -29,6 +29,7 @@ export class GraphicComponent implements OnInit, AfterViewInit {
   @Input() public chartId: string = '';
   @Input() public description: string = '';
   @Input() public lineChartType: string = 'line';
+  @Input() public generatedValues: any[];
   @Input() public lineChartData: Array<any>;
   @Input() public lineChartLabels: Array<any>;
   @Input() public lineChartColors: Array<any>

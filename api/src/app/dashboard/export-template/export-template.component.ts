@@ -11,6 +11,7 @@ import html2canvas from 'html2canvas'
 export class ExportTemplateComponent implements OnInit {
   idx: 0;
   data: any;
+  generatedValues: any;
   type: string;
 
   @ViewChild('card', { static: false }) cardEl: any
@@ -21,8 +22,8 @@ export class ExportTemplateComponent implements OnInit {
   ngOnInit(): void {
     this.pdfService.pdfEvent.subscribe(x => {
       this.type = x.type
-      this.data = x.data;
-
+      this.data = x.data.data;
+      this.generatedValues= x.data.generatedValues;
       this.cdr.detectChanges();
       this.export();
     })

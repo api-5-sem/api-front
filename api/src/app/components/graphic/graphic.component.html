@@ -26,3 +26,22 @@
     </div>
   </div>
 </div>
+
+<div class="table-responsive" *ngIf="generatedValues && generatedValues.length > 0">
+  <table class="table">
+    <thead class="text-primary">
+      <th>
+        Descricao
+      </th>
+      <th>
+        Valor
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of generatedValues">
+        <td>{{item[1]}}</td>
+        <td>{{item[0]}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
