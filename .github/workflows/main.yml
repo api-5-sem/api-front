@@ -6,7 +6,7 @@ on:
       - develop
       - main
   schedule:
-    - cron: '0 18 * * *' # Executa todos os dias às 18h
+    - cron: '0 18 * * *' 
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
       - name: Run unit tests
         if: github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
         run: ng test --watch=false --browsers=ChromeHeadless
-        working-directory: ./api
+        working-directory: ./api  
 
       - name: Login to Docker Hub
         if: github.ref == 'refs/heads/main'
