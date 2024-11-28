@@ -1,19 +1,23 @@
-# Usar a imagem oficial do Jenkins como base
-FROM jenkins/jenkins:lts
+# Usando a imagem Node LTS (alpine) para maior estabilidade
+FROM node:18-alpine
 
-# Definir que as operações abaixo sejam executadas como root para poder instalar pacotes
-USER root
+# Diretório de trabalho dentro do container
+WORKDIR /usr/src/app
 
-# Instalar Node.js (incluindo npm) na versão 18.19
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g @angular/cli@latest
+# Copiar o package.json e o package-lock.json para instalar as dependências
+COPY api/package*.json ./
 
-# Definir o usuário de volta para Jenkins para manter as permissões corretas
-USER jenkins
+# Instalar as dependências
+RUN npm install
 
-# Expor a porta padrão do Jenkins
-EXPOSE 8080
+# Instalar o Angular CLI globalmente (versão LTS)
+RUN npm install -g @angular/cli@13
 
-# Inicializar o Jenkins
-CMD ["bash", "-c", "/usr/local/bin/jenkins.sh"]
+# Copiar todo o código da pasta 'api' para o container
+COPY api /usr/src/app
+
+# Expor a porta 4200
+EXPOSE 4200
+
+# Rodar o servidor Angular com o comando ng serve
+CMD ["ng", "serve", "--host", "0.0.0.0"]
