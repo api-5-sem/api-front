@@ -23,7 +23,6 @@ export class ExportTemplateComponent implements OnInit {
 
   ngOnInit(): void {
     this.pdfService.pdfEvent.subscribe(x => {
-      console.log('aaa',x)
       this.type = x.type
       this.request = this.type === 'card' ? x.data.data.request : x.data.request;
       this.data = x.data.data;
@@ -42,7 +41,7 @@ export class ExportTemplateComponent implements OnInit {
     if (this.type === 'card') {
       return this.cardEl;
     }
-  
+
     return this.graphicEl
   }
 
@@ -70,23 +69,22 @@ export class ExportTemplateComponent implements OnInit {
   }
   gerarRelatorio() {
     const data = this.request;
-  
     const token = 'Bearer ' +localStorage.getItem("authToken");
     console.log(data)
     const command = data;
-  
+
     this.http.post('http://localhost:8080/relatorio', command, {
       responseType: 'blob',
       observe: 'response',
       headers: {
-        Authorization: token 
+        Authorization: token
       }
     }).subscribe(
       (response) => {
         console.log(response)
         const blob = new Blob([response.body], { type: 'application/vnd.ms-excel' });
         const url = window.URL.createObjectURL(blob);
-  
+
         const a = document.createElement('a');
         a.href = url;
         a.download = 'Relatorio.xlsx';
@@ -98,6 +96,6 @@ export class ExportTemplateComponent implements OnInit {
       }
     );
   }
-  
-  
+
+
 }
