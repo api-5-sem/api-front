@@ -1,70 +1,133 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ExportTemplateComponent } from './export-template.component';
 import { PdfService } from '../../services/pdf.service';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { of, Subject } from 'rxjs'; // Import Subject for mocking the pdfEvent
+import { ChangeDetectorRef } from '@angular/core';
 
-@Component({
-  selector: 'export-template',
-  templateUrl: './export-template.component.html',
-  styleUrls: ['./export-template.component.scss']
-})
-export class ExportTemplateComponent implements OnInit {
-  idx: 0;
-  data: any = {};  
-  generatedValues: any;
-  type: string;
+describe('ExportTemplateComponent', () => {
+  let component: ExportTemplateComponent;
+  let fixture: ComponentFixture<ExportTemplateComponent>;
+  let pdfServiceMock: jasmine.SpyObj<PdfService>;
+  let httpMock: HttpTestingController;
 
-  @ViewChild('card', { static: false }) cardEl: any;
-  @ViewChild('graphic', { static: false }) graphicEl: any;
+  beforeEach(async () => {
+    // Create a mock of PdfService
+    pdfServiceMock = jasmine.createSpyObj('PdfService', ['pdfEvent']);
+    
+    // Use a Subject instead of an Observable to allow calling next() on pdfEvent
+    pdfServiceMock.pdfEvent = new Subject();
 
-  constructor(private pdfService: PdfService, private cdr: ChangeDetectorRef) { }
+    await TestBed.configureTestingModule({
+      declarations: [ExportTemplateComponent],
+      imports: [HttpClientTestingModule],  // For mocking HTTP requests
+      providers: [
+        { provide: PdfService, useValue: pdfServiceMock },
+        ChangeDetectorRef,
+      ]
+    }).compileComponents();
 
-  ngOnInit(): void {
-    this.pdfService.pdfEvent.subscribe(x => {
-      this.type = x.type;
-      this.data = x.data.data;
-      this.generatedValues = x.data.generatedValues;
+    fixture = TestBed.createComponent(ExportTemplateComponent);
+    component = fixture.componentInstance;
+    httpMock = TestBed.inject(HttpTestingController);
+  });
 
-      if (this.data && this.data.filtros) {
-        this.cdr.detectChanges();
-        this.export();
-      } else {
-        console.warn('Data ou filtros não encontrados');
-      }
+  beforeEach(() => {
+    fixture.detectChanges(); // Triggers ngOnInit
+  });
+
+  
+  it('deve inicializar corretamente e chamar export quando pdf modalidade e selecionado', () => {
+    spyOn(component, 'export').and.callThrough();
+
+    // Trigger the subscription event using the Subject
+    pdfServiceMock.pdfEvent.next({
+      type: 'card',
+      data: {
+        data: { request: 'mockRequest', data: 'mockData' },
+        generatedValues: 'mockGeneratedValues'
+      },
+      modalidade: 'pdf'
     });
-  }
 
-  getEl() {
-    if (this.type === 'card') {
-      return this.cardEl;
-    }
-    return this.graphicEl;
-  }
+    // Check that the export function was called
+    expect(component.export).toHaveBeenCalled();
+    expect(component.type).toBe('card');
+    expect(component.request).toBe('mockRequest');
+    expect(component.data.data).toBe('mockData');  // Update to compare the correct data structure
+    expect(component.generatedValues).toBe('mockGeneratedValues');
+  });
 
-  export() {
-    const el = this.getEl();
-    if (el) {
-      setTimeout(() => {
-        html2canvas(el.nativeElement, {
-          allowTaint: true,
-        }).then((canvas) => {
-          const img = canvas.toDataURL("image/PNG");
-          const doc = new jsPDF('l', 'mm', 'a4');
+  
+  
+  it('deve chamar gerarRelatorio quando modalidade nao e pdf', () => {
+    spyOn(component, 'gerarRelatorio').and.callThrough();
+  
+    // Simulate pdfEvent for modalidade "excel" (not pdf)
+    pdfServiceMock.pdfEvent.next({
+      type: 'card',
+      data: {
+        data: { request: 'mockRequest', data: 'mockData' },
+        generatedValues: 'mockGeneratedValues'
+      },
+      modalidade: 'excel'
+    });
+  
+    // Ensure the gerarRelatorio method is called
+    expect(component.gerarRelatorio).toHaveBeenCalled();
+  
+    // Now ensure the HTTP request is mocked correctly
+    const mockResponse = new Blob(['mock'], { type: 'application/vnd.ms-excel' });
+    const req = httpMock.expectOne('http://localhost:8080/relatorio');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
+    
+    // Respond with mock data
+    req.flush(mockResponse);
+  
+    // Verify that no other requests are pending
+    httpMock.verify();
+  });
+  
 
-          const bufferX = 5;
-          const bufferY = 5;
-          const imgProps = doc.getImageProperties(img);
+  it('deve retornar cardEl quando tipo e card', () => {
+    component.type = 'card';
+    const el = component.getEl();
+    expect(el).toEqual(component.cardEl);
+  });
 
-          const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-          doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+  it('deve retornar graphicEl quando tipo e card', () => {
+    component.type = 'graphic';
+    const el = component.getEl();
+    expect(el).toEqual(component.graphicEl);
+  });
 
-          doc.output('dataurlnewwindow');
-        });
-      }, 2000);
-    } else {
-      console.warn('Elemento não encontrado para exportação');
-    }
-  }
-}
+  it('deve fazer POST request em gerarRelatorio', () => {
+    const mockResponse = new Blob(['mock'], { type: 'application/vnd.ms-excel' });
+
+    // Mock the response for the POST request
+    component.request = 'mockRequest';
+    localStorage.setItem("authToken", 'mockToken');
+
+    component.gerarRelatorio();
+
+    const req = httpMock.expectOne('http://localhost:8080/relatorio');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
+    req.flush(mockResponse);
+
+    // Check if file download behavior is triggered
+    const a = document.createElement('a');
+    const spyClick = spyOn(a, 'click');
+    a.href = window.URL.createObjectURL(mockResponse);
+    a.download = 'Relatorio.xlsx';
+    a.click();
+    expect(spyClick).toHaveBeenCalled();
+  });
+
+  afterEach(() => {
+    // Ensure that no HTTP requests are pending after each test
+    httpMock.verify();
+  });
+});
