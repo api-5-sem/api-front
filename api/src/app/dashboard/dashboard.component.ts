@@ -303,17 +303,17 @@ export class DashboardComponent implements OnInit {
         let data = response.graphicTwo.map(x => x[0]);
         let labels = response.graphicTwo.map(x => x[1])
         this.graphicTwoParameter = this.createGraphic(requestGraphicTwo.description, 'green', labels, data)
-        this.saveData('grafico1', { data: this.graphicTwoParameter, generatedValues: response.graphicTwo });
+        this.saveData('grafico1', { data: this.graphicTwoParameter, generatedValues: response.graphicTwo, request: requestGraphicTwo });
 
         data = response.graphicThree.map(x => x[0]);
         labels = response.graphicThree.map(x => x[1])
         this.graphicThreeParameter = this.createGraphic(requestGraphicThree.description, 'orange', labels, data)
-        this.saveData('grafico2', { data: this.graphicThreeParameter, generatedValues: response.graphicThree });
+        this.saveData('grafico2', { data: this.graphicThreeParameter, generatedValues: response.graphicThree, request: requestGraphicThree });
 
         data = response.graphicOne.map(x => x[0]);
         labels = response.graphicOne.map(x => x[1])
         this.graphicOneParameter = this.createBigGraphic(requestGraphicOne.description, labels, data)
-        this.saveData('grafico0', { data: this.graphicOneParameter, generatedValues: response.graphicOne });
+        this.saveData('grafico0', { data: this.graphicOneParameter, generatedValues: response.graphicOne, request: requestGraphicOne });
 
         this.isLoading = false;
       });
