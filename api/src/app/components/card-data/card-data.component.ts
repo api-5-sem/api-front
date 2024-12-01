@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalExportComponent } from '../../dashboard/modal-export/modal-export.component';
 import { ModalConfigComponent } from '../../dashboard/modal-config//modal-config.component';
 import { DashboardFilter } from '../../models/dashboard-request.model';
 
@@ -8,7 +9,7 @@ import { DashboardFilter } from '../../models/dashboard-request.model';
   templateUrl: './card-data.component.html',
   styleUrls: ['./card-data.component.scss']
 })
-export class CardDataComponent implements OnInit {
+export class CardDataComponent implements OnInit, OnChanges {
   @Input() description: string;
   @Input() value: number;
   @Input() filters: DashboardFilter[];
@@ -27,6 +28,13 @@ export class CardDataComponent implements OnInit {
     this.tabela = sessionStorage.getItem("tabela");
     this.nome = sessionStorage.getItem("nome");
     this.fato = sessionStorage.getItem("fato");
+    console.log(this.value);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.value){
+      this.value = changes.value.currentValue
+    }
   }
 
   formatarData(dataISO: string): string {
@@ -41,6 +49,12 @@ export class CardDataComponent implements OnInit {
   openModal() {
     let m = this.ngbModal.open(ModalConfigComponent)
     m.componentInstance.idXGrafico = this.idx;
+    m.componentInstance.tipo = 'card';
+  }
+
+  share() {
+    let m = this.ngbModal.open(ModalExportComponent)
+    m.componentInstance.idx = this.idx;
     m.componentInstance.tipo = 'card';
   }
 }

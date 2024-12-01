@@ -15,6 +15,7 @@ import { KeyIndicatorsComponent } from './key-indicators/key-indicators.componen
 import { CreateIndicatorComponent } from './key-indicators/create-indicator/create-indicator.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 import { PermissionDirective } from '../../permission.directive';
+import { ExportTemplateComponent } from '../../dashboard/export-template/export-template.component';
 
 @NgModule({
   imports: [
@@ -35,8 +36,12 @@ import { PermissionDirective } from '../../permission.directive';
     CardDataComponent,
     CreateIndicatorComponent,
     PermissionsComponent,
-    PermissionDirective
+    PermissionDirective,
+    ExportTemplateComponent,
   ],
+  exports: [
+    PermissionDirective
+  ]
 })
 
 export class AdminLayoutModule { }
