@@ -1,10 +1,11 @@
-import { Component, OnInit, Pipe } from '@angular/core';
-import { forkJoin, of, Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { DashboardRequest, FiltrosCampos } from '../models/dashboard-request.model';
 import { GraphicParameters } from '../models/graphic-parameters.model';
 import { DashboardService } from '../services/dashboard.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfigComponent } from './modal-config/modal-config.component';
+import { ModalExportComponent } from './modal-export/modal-export.component';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
   itemList: FiltrosCampos[] = [];
   idXGrafico: string;
   idXgraficoAux: number;
+
   constructor(
     private dashboardService: DashboardService,
     private modalService: NgbModal
@@ -198,53 +200,52 @@ export class DashboardComponent implements OnInit {
       if (grafico1) {
         return grafico1;
       }
-      else {
-        return {
-          'description': 'Tempo medio do processo',
-          "eixoX": {
-            "nome": "fato_vaga",
-            "campo": "tempo_medio_processo"
-          },
-          "eixoY": {
-            "nome": "dim_vaga",
-            "campo": "titulo"
-          },
-          "filtros": [
-            {
-              "nome": "dim_periodo",
-              "campo": "dt_abertura",
-              "comparador": ">=",
-              "valor": "2000-09-22"
-            }
-          ]
-        }
+
+      return {
+        'description': 'Tempo medio do processo',
+        "eixoX": {
+          "nome": "fato_vaga",
+          "campo": "tempo_medio_processo"
+        },
+        "eixoY": {
+          "nome": "dim_vaga",
+          "campo": "titulo"
+        },
+        "filtros": [
+          {
+            "nome": "dim_periodo",
+            "campo": "dt_abertura",
+            "comparador": ">=",
+            "valor": "2000-09-22"
+          }
+        ]
       }
     }
+
     if (idx == 2) {
       const grafico2 = JSON.parse(sessionStorage.getItem("grafico2")) as DashboardRequest;
       if (grafico2) {
         return grafico2;
       }
-      else {
-        return {
-          'description': 'Numero de processos abertos nos ultimos 12 meses ',
-          "eixoX": {
-            "nome": "fato_vaga",
-            "campo": "nr_posicoes_abertas"
-          },
-          "eixoY": {
-            "nome": "dim_vaga",
-            "campo": "titulo"
-          },
-          "filtros": [
-            {
-              "nome": "dim_periodo",
-              "campo": "dt_abertura",
-              "comparador": ">=",
-              "valor": "2023-09-22"
-            }
-          ]
-        }
+
+      return {
+        'description': 'Numero de processos abertos nos ultimos 12 meses ',
+        "eixoX": {
+          "nome": "fato_vaga",
+          "campo": "nr_posicoes_abertas"
+        },
+        "eixoY": {
+          "nome": "dim_vaga",
+          "campo": "titulo"
+        },
+        "filtros": [
+          {
+            "nome": "dim_periodo",
+            "campo": "dt_abertura",
+            "comparador": ">=",
+            "valor": "2023-09-22"
+          }
+        ]
       }
     }
 
@@ -275,8 +276,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
-
   loadData() {
     const [requestCardOne, requestCardTwo, requestCardThree] =
       [this.createCardRequest(1), this.createCardRequest(2), this.createCardRequest(3)]
@@ -295,20 +294,26 @@ export class DashboardComponent implements OnInit {
     })
       .subscribe(response => {
         this.cardData.push({ value: response.cardOne.reduce((a, b) => a + b, 0), request: requestCardOne });
+        this.saveData('card1', { data: this.cardData[0], generatedValues: response.cardOne });
         this.cardData.push({ value: response.cardTwo.reduce((a, b) => a + b, 0), request: requestCardTwo });
+        this.saveData('card2', { data: this.cardData[1], generatedValues: response.cardTwo });
         this.cardData.push({ value: response.cardThree.reduce((a, b) => a + b, 0), request: requestCardThree });
+        this.saveData('card3', { data: this.cardData[2], generatedValues: response.cardThree });
 
         let data = response.graphicTwo.map(x => x[0]);
         let labels = response.graphicTwo.map(x => x[1])
         this.graphicTwoParameter = this.createGraphic(requestGraphicTwo.description, 'green', labels, data)
+        this.saveData('grafico1', { data: this.graphicTwoParameter, generatedValues: response.graphicTwo });
 
         data = response.graphicThree.map(x => x[0]);
         labels = response.graphicThree.map(x => x[1])
         this.graphicThreeParameter = this.createGraphic(requestGraphicThree.description, 'orange', labels, data)
+        this.saveData('grafico2', { data: this.graphicThreeParameter, generatedValues: response.graphicThree });
 
         data = response.graphicOne.map(x => x[0]);
         labels = response.graphicOne.map(x => x[1])
         this.graphicOneParameter = this.createBigGraphic(requestGraphicOne.description, labels, data)
+        this.saveData('grafico0', { data: this.graphicOneParameter, generatedValues: response.graphicOne });
 
         this.isLoading = false;
       });
@@ -318,6 +323,15 @@ export class DashboardComponent implements OnInit {
     let modalRef = this.modalService.open(ModalConfigComponent);
     modalRef.componentInstance.idXGrafico = 1
     modalRef.componentInstance.tipo = 'grafico'
+  }
 
+  share() {
+    let modalRef = this.modalService.open(ModalExportComponent);
+    modalRef.componentInstance.idx = 0
+    modalRef.componentInstance.tipo = 'grafico'
+  }
+
+  saveData(key: string, obj: any) {
+    sessionStorage.setItem(key + 'r', JSON.stringify(obj))
   }
 }

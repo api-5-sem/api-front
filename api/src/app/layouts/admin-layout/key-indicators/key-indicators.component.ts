@@ -22,8 +22,9 @@ export class KeyIndicatorsComponent implements OnInit {
   }
 
   botaoDeletarIndicador(id: any) {
-    this.keyIndicatorsService.botaoDeletarIndicador(id)
-      .subscribe();
+    if (confirm('Deseja deletar o indicador?')) {
+      this.keyIndicatorsService.botaoDeletarIndicador(id)
+        .subscribe();
+    }
   }
-  
 }
