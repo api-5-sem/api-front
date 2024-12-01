@@ -18,7 +18,7 @@ export class AppComponent implements OnInit , OnDestroy{
         const headers = new HttpHeaders().set('Authorization', `${this.tokenAuth}`);
     
         this.notificationInterval = setInterval(() => {
-            this.http.post(environment.apiUrl + 'notificacoes', { usuario: 'admin' },{headers}).subscribe()
+            //this.http.post(environment.apiUrl + 'notificacoes', { usuario: 'admin' },{headers}).subscribe()
         }, 15000)
     }
 

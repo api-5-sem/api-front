@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { PdfService } from '../../services/pdf.service';
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'export-template',
@@ -11,21 +12,28 @@ import html2canvas from 'html2canvas'
 export class ExportTemplateComponent implements OnInit {
   idx: 0;
   data: any;
+  request: any;
   generatedValues: any;
   type: string;
 
   @ViewChild('card', { static: false }) cardEl: any
   @ViewChild('graphic', { static: false }) graphicEl: any
 
-  constructor(private pdfService: PdfService, private cdr: ChangeDetectorRef) { }
+  constructor(private pdfService: PdfService, private cdr: ChangeDetectorRef, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.pdfService.pdfEvent.subscribe(x => {
       this.type = x.type
+      this.request = this.type === 'card' ? x.data.data.request : x.data.request;
       this.data = x.data.data;
-      this.generatedValues= x.data.generatedValues;
+      this.generatedValues = x.data.generatedValues;
       this.cdr.detectChanges();
-      this.export();
+      if (x.modalidade == 'pdf') {
+        this.export();
+      }
+      else {
+        this.gerarRelatorio();
+      }
     })
   }
 
@@ -59,4 +67,35 @@ export class ExportTemplateComponent implements OnInit {
       })
     }, 2000)
   }
+  gerarRelatorio() {
+    const data = this.request;
+    const token = 'Bearer ' +localStorage.getItem("authToken");
+    console.log(data)
+    const command = data;
+
+    this.http.post('http://localhost:8080/relatorio', command, {
+      responseType: 'blob',
+      observe: 'response',
+      headers: {
+        Authorization: token
+      }
+    }).subscribe(
+      (response) => {
+        console.log(response)
+        const blob = new Blob([response.body], { type: 'application/vnd.ms-excel' });
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Relatorio.xlsx';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      (error) => {
+        console.error('Erro ao gerar o relatório:', error);
+      }
+    );
+  }
+
+
 }
