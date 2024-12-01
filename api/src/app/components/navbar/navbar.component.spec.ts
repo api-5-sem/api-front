@@ -14,12 +14,12 @@ describe('NavbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,  
-        HttpClientTestingModule  
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
-      declarations: [ NavbarComponent ]
+      declarations: [NavbarComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -27,7 +27,7 @@ describe('NavbarComponent', () => {
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
     httpMock = TestBed.inject(HttpTestingController);
-    fixture.detectChanges();  
+    fixture.detectChanges();
   });
 
   afterEach(() => {
@@ -40,10 +40,10 @@ describe('NavbarComponent', () => {
 
   xit('deve disparar o input de arquivo ao clicar no botão', () => {
     spyOn(component, 'triggerFileInput').and.callThrough();
-    
+
     const button = debugElement.query(By.css('button.upload-btn')).nativeElement;
     button.click();
-    
+
     expect(component.triggerFileInput).toHaveBeenCalled();
   });
 
