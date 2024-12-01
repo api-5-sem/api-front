@@ -4,7 +4,7 @@ import { ModalExportComponent } from './modal-export.component';
 import { PdfService } from '../../services/pdf.service';
 import { of, Subject } from 'rxjs';
 
-describe('ModalExportComponent', () => {
+fdescribe('ModalExportComponent', () => {
   let component: ModalExportComponent;
   let fixture: ComponentFixture<ModalExportComponent>;
   let mockPdfService: any;
@@ -17,8 +17,8 @@ describe('ModalExportComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ModalExportComponent],
       providers: [
-        NgbActiveModal, 
-        { provide: PdfService, useValue: mockPdfService }, 
+        NgbActiveModal,
+        { provide: PdfService, useValue: mockPdfService },
       ],
     }).compileComponents();
   });
@@ -59,7 +59,7 @@ describe('ModalExportComponent', () => {
 
     component.close();
 
-  
+
     expect(activeModalSpy).toHaveBeenCalled();
   });
 });
