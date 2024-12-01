@@ -185,8 +185,8 @@ export class NavbarComponent implements OnInit {
       const headers = new HttpHeaders()
         .set('Authorization', ` ${this.tokenAuth}`)
         .set('enctype', 'multipart/form-data');
-
-      this.httpService.post("http://localhost:8080/importacao", formData, { headers })
+  
+      this.httpService.post("/api/importacao", formData, { headers })
         .subscribe(
           response => {
             console.log('Arquivo enviado com sucesso', response);
