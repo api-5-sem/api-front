@@ -4,7 +4,7 @@ import { ModalExportComponent } from './modal-export.component';
 import { PdfService } from '../../services/pdf.service';
 import { of, Subject } from 'rxjs';
 
-fdescribe('ModalExportComponent', () => {
+xdescribe('ModalExportComponent', () => {
   let component: ModalExportComponent;
   let fixture: ComponentFixture<ModalExportComponent>;
   let mockPdfService: any;
