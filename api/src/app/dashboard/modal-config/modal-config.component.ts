@@ -11,7 +11,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 export class ModalConfigComponent implements OnInit {
 
   private tokenAuth: string | null = localStorage.getItem("authToken");
- 
+
   idXGrafico: number;
   tipo: string;
 
@@ -71,10 +71,10 @@ export class ModalConfigComponent implements OnInit {
   }
 
   getFatos(): void {
- 
+
     const headers = new HttpHeaders().set('Authorization', `${this.tokenAuth}`);
 
-    this.httpService.get("http://localhost:8080/filtros/fatos", { headers })
+    this.httpService.get("/api/filtros/fatos", { headers })
       .subscribe({
         next: (responses: any[]) => {
           this.fatos = responses
@@ -83,10 +83,10 @@ export class ModalConfigComponent implements OnInit {
   }
 
   onFatoChange(value: string): void {
-    
+
     const headers = new HttpHeaders().set('Authorization', `${this.tokenAuth}`);
 
-    this.httpService.get(`http://localhost:8080/filtros/dimensoes?fato=${value}`, { headers })
+    this.httpService.get(`/api/filtros/dimensoes?fato=${value}`, { headers })
       .subscribe({
         next: (response: any[]) => {
           this.dimensao = response;

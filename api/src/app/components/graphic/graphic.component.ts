@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClient } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfigComponent } from '../../dashboard/modal-config/modal-config.component';
+import { ModalExportComponent } from '../../dashboard/modal-export/modal-export.component';
 interface FiltrosCamposGraphics {
   nome: string;
   campos: string[];
@@ -29,6 +29,7 @@ export class GraphicComponent implements OnInit, AfterViewInit {
   @Input() public chartId: string = '';
   @Input() public description: string = '';
   @Input() public lineChartType: string = 'line';
+  @Input() public generatedValues: any[];
   @Input() public lineChartData: Array<any>;
   @Input() public lineChartLabels: Array<any>;
   @Input() public lineChartColors: Array<any>
@@ -160,4 +161,11 @@ export class GraphicComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.idXGrafico = this.idx
     modalRef.componentInstance.tipo = 'grafico'
   }
+
+  share() {
+    let modalRef = this.modalService.open(ModalExportComponent);
+    modalRef.componentInstance.idx = this.idx
+    modalRef.componentInstance.tipo = 'grafico'
+  }
+
 }
