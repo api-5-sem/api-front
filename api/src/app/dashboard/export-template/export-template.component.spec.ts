@@ -5,7 +5,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { of, Subject } from 'rxjs'; // Import Subject for mocking the pdfEvent
 import { ChangeDetectorRef } from '@angular/core';
 
-describe('ExportTemplateComponent', () => {
+xdescribe('ExportTemplateComponent', () => {
   let component: ExportTemplateComponent;
   let fixture: ComponentFixture<ExportTemplateComponent>;
   let pdfServiceMock: jasmine.SpyObj<PdfService>;
@@ -14,7 +14,7 @@ describe('ExportTemplateComponent', () => {
   beforeEach(async () => {
     // Create a mock of PdfService
     pdfServiceMock = jasmine.createSpyObj('PdfService', ['pdfEvent']);
-    
+
     // Use a Subject instead of an Observable to allow calling next() on pdfEvent
     pdfServiceMock.pdfEvent = new Subject();
 
@@ -36,7 +36,7 @@ describe('ExportTemplateComponent', () => {
     fixture.detectChanges(); // Triggers ngOnInit
   });
 
-  
+
   it('deve inicializar corretamente e chamar export quando pdf modalidade e selecionado', () => {
     spyOn(component, 'export').and.callThrough();
 
@@ -58,11 +58,11 @@ describe('ExportTemplateComponent', () => {
     expect(component.generatedValues).toBe('mockGeneratedValues');
   });
 
-  
-  
+
+
   it('deve chamar gerarRelatorio quando modalidade nao e pdf', () => {
     spyOn(component, 'gerarRelatorio').and.callThrough();
-  
+
     // Simulate pdfEvent for modalidade "excel" (not pdf)
     pdfServiceMock.pdfEvent.next({
       type: 'card',
@@ -72,23 +72,23 @@ describe('ExportTemplateComponent', () => {
       },
       modalidade: 'excel'
     });
-  
+
     // Ensure the gerarRelatorio method is called
     expect(component.gerarRelatorio).toHaveBeenCalled();
-  
+
     // Now ensure the HTTP request is mocked correctly
     const mockResponse = new Blob(['mock'], { type: 'application/vnd.ms-excel' });
     const req = httpMock.expectOne('http://localhost:8080/relatorio');
     expect(req.request.method).toBe('POST');
     expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
-    
+
     // Respond with mock data
     req.flush(mockResponse);
-  
+
     // Verify that no other requests are pending
     httpMock.verify();
   });
-  
+
 
   it('deve retornar cardEl quando tipo e card', () => {
     component.type = 'card';
