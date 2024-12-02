@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - develop
+      - feat/apresentacao
   schedule:
     - cron: '0 18 * * *'
 
