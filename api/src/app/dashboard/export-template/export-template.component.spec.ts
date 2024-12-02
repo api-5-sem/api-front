@@ -78,7 +78,7 @@ xdescribe('ExportTemplateComponent', () => {
 
     // Now ensure the HTTP request is mocked correctly
     const mockResponse = new Blob(['mock'], { type: 'application/vnd.ms-excel' });
-    const req = httpMock.expectOne('http://localhost:8080/relatorio');
+    const req = httpMock.expectOne('/api/relatorio');
     expect(req.request.method).toBe('POST');
     expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
 
@@ -112,7 +112,7 @@ xdescribe('ExportTemplateComponent', () => {
 
     component.gerarRelatorio();
 
-    const req = httpMock.expectOne('http://localhost:8080/relatorio');
+    const req = httpMock.expectOne('/api/relatorio');
     expect(req.request.method).toBe('POST');
     expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
     req.flush(mockResponse);

@@ -73,7 +73,7 @@ export class ExportTemplateComponent implements OnInit {
     console.log(data)
     const command = data;
 
-    this.http.post('http://localhost:8080/relatorio', command, {
+    this.http.post('/api/relatorio', command, {
       responseType: 'blob',
       observe: 'response',
       headers: {
