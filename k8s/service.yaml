@@ -8,3 +8,4 @@ spec:
   - port: 4200
   selector:
     app: web
+    
