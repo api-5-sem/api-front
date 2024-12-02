@@ -44,7 +44,7 @@ jobs:
   build-and-push-acr:
     name: Build and Push to Azure Container Registry
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.base_ref == 'main' # Apenas PR para main
+    if: github.event_name == 'pull_request' && github.base_ref == 'feat/apresentacao'
 
     steps:
     - uses: actions/checkout@master
